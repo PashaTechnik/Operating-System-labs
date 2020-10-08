@@ -38,33 +38,30 @@ memory_allocator просматривает всю память, чтобы на
 Функция удаляет данные блока, помечает их как блок «свободной памяти» и
 пытается объединиться с соседними блоками «свободной памяти», если они есть.
 ### Примеры использования
-#### Аллокация 15 байтов
+#### Аллокация 3 блоков по 1 байту
 ##### Пример кода
 ```
-void* x = memory_allocate(15);
+    malloc(1);
+    malloc(1);
+    malloc(1);
 ```
 ##### Console Output
-![Allocate 15 bytes](img/memory_allocator.png)
+![Allocate 15 bytes](malloc.png)
 
-#### Реаллокация блока из 72 до 7 байт
+#### Реаллокация блока 
 ##### Пример кода
 ```
-void* x = memory_reallocate(x7, 7);
+    realloc(head->next,12);
 ```
 #### Console Output
-##### Перед Реалоком
-![Pre-realocate memory](img/pre_realloc.png)
 ##### После Реалока
-![Realocate memory](img/post_realloc.png)
+![Realocate memory](realloc.png)
 
-#### Высвобождение 2-ух соседних блоков памяти
+#### Высвобождение 1-го блока памяти
 ##### Пример кода
 ```
-memory_free(x2);
-memory_free(x3);
+free(head->next);
 ```
 #### Console Output
-##### Перед высвобождением
-![Free Memory](img/pre_free.png "Free the memory")
 ##### После высвобождения
-![Free Memory](img/post_free.png "Free the memory")
+![Free Memory](free.png)
