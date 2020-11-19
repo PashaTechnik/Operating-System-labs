@@ -253,27 +253,28 @@ int main() {
 
 
     pageInit();
-/*    page_malloc(10);
+    page_malloc(10);
 
 
-    void* test = page_malloc(33);*/
+    void* test = page_malloc(33);
 
     page_malloc(69);
-/*    page_malloc(100);
     page_malloc(100);
     page_malloc(100);
     page_malloc(100);
-    page_malloc(100);*/
+    page_malloc(100);
+    page_malloc(100);
     page_malloc(560);
-    page_malloc(2300);
+
+
 
     mem_dump();
-/*    page_free(test);
+    page_free(test);
     cout<<"---------------------------------------------------------------------------------------"<<endl;
     mem_dump();
     cout<<"---------------------------------------------------------------------------------------"<<endl;
     page_malloc(33);
-    mem_dump();*/
+    mem_dump();
 
 
 
