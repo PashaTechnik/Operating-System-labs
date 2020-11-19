@@ -26,30 +26,39 @@ This function checks if `addr` is valid and align `size` to a minimum of two equ
 ### Examples
 #### Example of `mem_alloc(size_t size)` function
 ##### Description
-Allocation of 9000, 400, 400 bytes blocks
+Allocation 10 33 69 100 100 100 100 100 560
+
 ##### Code
 ```
-void* x1 = mem_alloc(9000);
-void* x2 = mem_alloc(400);
-void* x3 = mem_alloc(400);
+    page_malloc(10);
+
+
+    void* test = page_malloc(33);
+
+    page_malloc(69);
+    page_malloc(100);
+    page_malloc(100);
+    page_malloc(100);
+    page_malloc(100);
+    page_malloc(100);
+    page_malloc(560);
 ```
 ##### Picture
 ![Allocate 3 blocks](example1.png "Allocate 3 blocks")
 #### Example of `mem_free(void* addr)` function
 ##### Description
-Dealloc of the first 400 byte block
+Free block test
 ##### Code
-`mem_free(x2);`
+`page_free(test);`
 ##### Picture
 ![Dealloc 400 byte block](example2.png "Dealloc 400 byte block")
 
 #### Example of `mem_alloc(void* addr, size_t size)` function
 ##### Description
-Realloc 9000 => 5000 and 400 => 1000
+Realloc
 ##### Code
 ``
-void* x5 = mem_realloc(x1, 5000);
-void* x6 = mem_realloc(x3, 1000);
+page_realloc(33);
 ``
 ##### Picture
 ![Realloc](example3.png "Realloc")
