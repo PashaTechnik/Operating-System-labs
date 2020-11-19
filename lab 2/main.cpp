@@ -99,7 +99,7 @@ void* page_malloc(size_t size){
 
     total_size = size + sizeof(struct header_r);
 
-    if(total_size > (PAGE_SIZE / 2)){
+    if(total_size > (PAGE_SIZE / 2) && total_size < PAGE_SIZE){
         page* page_t = &get_full_page_for_alloc();
         page_t->number_of_blocks = 1;
         page_t->availability = false;
@@ -112,8 +112,41 @@ void* page_malloc(size_t size){
         pageMap[*page_t] = blocks_in_page;
         return page_t->startPageAddr;
     }
+
+    if (total_size > PAGE_SIZE){
+        int num_of_pages = total_size / PAGE_SIZE;
+        int remainder = total_size % PAGE_SIZE;
+        page* page_t;
+
+        for (int i = 0; i < num_of_pages; ++i) {
+            page_t = &get_full_page_for_alloc();
+            page_t->number_of_blocks = 1;
+            page_t->availability = false;
+            vector<header_r> blocks_in_page = pageMap[*page_t];
+            block.size = PAGE_SIZE;
+            block.is_free = false;
+            block.start = page_t->startPageAddr;
+            block.end = (uint8_t*)page_t->startPageAddr + PAGE_SIZE;
+            blocks_in_page.push_back(block);
+            pageMap[*page_t] = blocks_in_page;
+        }
+
+        page* page_r = &get_full_page_for_alloc();
+        page_r->number_of_blocks = 1;
+        page_r->availability = false;
+        vector<header_r> blocks_in_page = pageMap[*page_t];
+        block.size = remainder;
+        block.is_free = false;
+        block.start = page_r->startPageAddr;
+        block.end = (uint8_t*)page_r->startPageAddr + PAGE_SIZE;
+        blocks_in_page.push_back(block);
+        pageMap[*page_t] = blocks_in_page;
+        return page_r->startPageAddr;
+        }
+
+
     size_t block_size = round_up(total_size);
-    int block_amount = PAGE_SIZE/block_size;
+    int block_amount = PAGE_SIZE / block_size;
     free_page = get_free_page(block_amount);
     page_addr = free_page.startPageAddr;
 
@@ -232,6 +265,7 @@ int main() {
     page_malloc(100);
     page_malloc(100);*/
     page_malloc(560);
+    page_malloc(2300);
 
     mem_dump();
 /*    page_free(test);
