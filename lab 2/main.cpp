@@ -19,13 +19,13 @@ struct header_r {
 
 
 struct page{
-    void* startPageAddr;
+    void* start_page_addr;
     bool availability;
     int number_of_blocks;
 
     bool operator< (const page &d2) const
     {
-        return this->startPageAddr < d2.startPageAddr;
+        return this->start_page_addr < d2.start_page_addr;
     }
 };
 
@@ -38,7 +38,7 @@ void pageInit(){
     void* heapPosition = sbrk(PAGE_SIZE);
     for (int i = 0;i < AMOUNT_OF_PAGES;i++){
         allPages[i].availability = true;
-        allPages[i].startPageAddr = heapPosition;
+        allPages[i].start_page_addr = heapPosition;
         allPages[i].number_of_blocks = NULL;
         heapPosition = sbrk(PAGE_SIZE);
     }
@@ -71,6 +71,7 @@ page get_free_page(int block_class){
     }
 }
 
+
 page& get_full_page_for_alloc(){
     for (int i = 0;i < AMOUNT_OF_PAGES;i++){
         if(allPages[i].availability == true && allPages[i].number_of_blocks == 0){
@@ -84,6 +85,7 @@ void page_availability_check(){
         if (allPages[i].number_of_blocks == pageMap[allPages[i]].size() && allPages[i].number_of_blocks != 0) allPages[i].availability = false;
     }
 }
+
 
 void* page_malloc(size_t size){
     page_availability_check();
@@ -99,34 +101,36 @@ void* page_malloc(size_t size){
 
     total_size = size + sizeof(struct header_r);
 
-    if(total_size > (PAGE_SIZE / 2) && total_size < PAGE_SIZE){
+    if( total_size > (PAGE_SIZE / 2) && total_size < PAGE_SIZE ){
         page* page_t = &get_full_page_for_alloc();
         page_t->number_of_blocks = 1;
         page_t->availability = false;
         vector<header_r> blocks_in_page = pageMap[*page_t];
         block.size = size;
         block.is_free = false;
-        block.start = page_t->startPageAddr;
-        block.end = (uint8_t*)page_t->startPageAddr + PAGE_SIZE;
+        block.start = page_t->start_page_addr;
+        block.end = (uint8_t*)page_t->start_page_addr + PAGE_SIZE;
         blocks_in_page.push_back(block);
         pageMap[*page_t] = blocks_in_page;
-        return page_t->startPageAddr;
+        return page_t->start_page_addr;
     }
 
     if (total_size > PAGE_SIZE){
         int num_of_pages = total_size / PAGE_SIZE;
         int remainder = total_size % PAGE_SIZE;
+        void * ret;
         page* page_t;
 
         for (int i = 0; i < num_of_pages; ++i) {
             page_t = &get_full_page_for_alloc();
             page_t->number_of_blocks = 1;
             page_t->availability = false;
+            if (i == 0) ret = page_t->start_page_addr;
             vector<header_r> blocks_in_page = pageMap[*page_t];
             block.size = PAGE_SIZE;
             block.is_free = false;
-            block.start = page_t->startPageAddr;
-            block.end = (uint8_t*)page_t->startPageAddr + PAGE_SIZE;
+            block.start = ret;
+            block.end = (uint8_t*)page_t->start_page_addr + PAGE_SIZE;
             blocks_in_page.push_back(block);
             pageMap[*page_t] = blocks_in_page;
         }
@@ -134,21 +138,22 @@ void* page_malloc(size_t size){
         page* page_r = &get_full_page_for_alloc();
         page_r->number_of_blocks = 1;
         page_r->availability = false;
-        vector<header_r> blocks_in_page = pageMap[*page_t];
+        vector<header_r> blocks_in_page = pageMap[*page_r];
         block.size = remainder;
         block.is_free = false;
-        block.start = page_r->startPageAddr;
-        block.end = (uint8_t*)page_r->startPageAddr + PAGE_SIZE;
+        block.start = ret;
+        block.end = (uint8_t*)page_r->start_page_addr + PAGE_SIZE;
         blocks_in_page.push_back(block);
-        pageMap[*page_t] = blocks_in_page;
-        return page_r->startPageAddr;
+        pageMap[*page_r] = blocks_in_page;
+        return ret;
+
         }
 
 
     size_t block_size = round_up(total_size);
     int block_amount = PAGE_SIZE / block_size;
     free_page = get_free_page(block_amount);
-    page_addr = free_page.startPageAddr;
+    page_addr = free_page.start_page_addr;
 
 
     vector<header_r> blocks_in_page = pageMap[free_page];
@@ -196,8 +201,8 @@ void page_free(void* addr){
             }
         }
     }
-
     page_t->number_of_blocks = NULL;
+    page_t->availability = true;
     block->is_free = true;
 
 }
@@ -237,7 +242,7 @@ void mem_dump(){
         cout<<"Page number: "<<i+1;
         cout<<"\tPage availability: "<<allPages[i].availability;
         cout<<"\tNumber Of Blocks: "<<allPages[i].number_of_blocks;
-        cout<<"\tPage address: "<<allPages[i].startPageAddr<<endl;
+        cout << "\tPage address: " << allPages[i].start_page_addr << endl;
         for (int j = 0; j < pageMap[allPages[i]].size(); ++j) {
             cout<<"\tBlock number: "<<j+1;
             cout<<"\tBlock availability: "<<pageMap[allPages[i]][j].is_free;
@@ -274,7 +279,11 @@ int main() {
     mem_dump();
     cout<<"---------------------------------------------------------------------------------------"<<endl;
     page_malloc(33);
+    test = page_malloc(2000);
     mem_dump();
+    page_free(test);
+    mem_dump();
+
 
 
 
@@ -285,11 +294,11 @@ int main() {
     cout<<init_blocks.size();
     page p;
     p.number_of_blocks = 12;
-    p.startPageAddr = 0x0;
+    p.start_page_addr = 0x0;
     p.availability = true;
 
     allPages[0].number_of_blocks = 12;
-    allPages[0].startPageAddr = 0x0;
+    allPages[0].start_page_addr = 0x0;
     allPages[0].availability = true;
 
     pageMap1.insert(pair<page,vector<header_r>>(p, init_blocks));*/
