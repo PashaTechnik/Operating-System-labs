@@ -1,0 +1,12 @@
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/bin/Debug/netcoreapp3.1/Process Manager Simulator.deps.json
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/bin/Debug/netcoreapp3.1/Process Manager Simulator.runtimeconfig.json
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/bin/Debug/netcoreapp3.1/Process Manager Simulator.runtimeconfig.dev.json
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/bin/Debug/netcoreapp3.1/Process Manager Simulator.dll
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/bin/Debug/netcoreapp3.1/Process Manager Simulator.pdb
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/obj/Debug/netcoreapp3.1/Process Manager Simulator.csprojAssemblyReference.cache
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/obj/Debug/netcoreapp3.1/Process Manager Simulator.AssemblyInfoInputs.cache
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/obj/Debug/netcoreapp3.1/Process Manager Simulator.AssemblyInfo.cs
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/obj/Debug/netcoreapp3.1/Process Manager Simulator.csproj.CoreCompileInputs.cache
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/obj/Debug/netcoreapp3.1/Process Manager Simulator.dll
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/obj/Debug/netcoreapp3.1/Process Manager Simulator.pdb
+/Users/admin/Desktop/Operating-System-labs/lab 3/Process Manager Simulator/obj/Debug/netcoreapp3.1/Process Manager Simulator.genruntimeconfig.cache

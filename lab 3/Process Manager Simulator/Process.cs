@@ -13,7 +13,7 @@ namespace Process_Manager_Simulator
         {
             Process p = obj as Process;
             if (p != null)
-                return this.Name.CompareTo(p.Priority);
+                return this.Priority.CompareTo(p.Priority);
             else
                 throw new Exception("Impossible to compare");
         }

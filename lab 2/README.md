@@ -1,32 +1,27 @@
 # page-allocator
-### Basic Options
-- PAGE_SIZE 4096 or 4kb
-- MEMORY_SIZE 16384 or 16kb, thus 4 pages can be created using this memory
-- MIN_CLASS_SIZE 16 or 2^4, next classes are 2^x where x >= 4
-- BLOCK_HEADER_SIZE 1, the byte used to define whether block is free or busy
-### Page Header Description
-#### Status
-- Free, if page doesn't contain any allocated memory
-- Divided, if size of the allocated memory is less or equal than PAGE_SIZE / 2
-- MultipageBlock, if size of the allocated memory is grater than PAGE_SIZE / 2
-#### ClassSize
-- Used to indicate how much memory each block of the page has
-- It comes out that the page can contain PAGE_SIZE / ClassSize blocks
-#### AvailableBlock
-- In case of divided status it points on a free block
-- In case of multipage block status it points on the next page block
-- In case of free status it has nullptr value
+Page memory allocator is a variant of memory allocator where all virtual memory is made up of pages. Each page can be located in RAM or in an external file (pages that have been accessed at least once, i.e. pages for which virtual memory resources have been allocated) are considered.
+When accessing a page located in an external file, a page miss occurs and the operating system finds a free physical page and reads the content from the external file into it. The page size is usually 4 KB to several MB. Thus, if in the process of making a decision the memory allocator refers to fewer pages, the less it leaves a trace in memory, the more efficient it is.
+As in lab # 1, the memory allocator requests a certain area of memory from the operating system. Further, all this memory is divided into pages. The page size does not have to be the same as the virtual page size. For example, one virtual one can contain several pages of the allocator. All pages are aligned, so when accessing data at any address within the page, we refer to only one virtual page.
 ### Algorithm description
 #### `void* mem_alloc(size_t size)` function
-This function align `size` to a minimum power of two equivalent. In case when `size <= PAGE_SIZE / 2`, the function searches the classified page with the same class size. If such page is not found, the function searches for a free page and divide it into blocks with an appropriate size, initialize their headers and changes the header, setting divided status, class size and available block pointer. The function returns `nullptr` if no free pages found. In case when `size > PAGE_SIZE / 2`, the function calculates amount of pages needed to store such a big block. If amount of free pages is greater or equal to amount of pages needed, then the function changes the header, setting multipage block status, class size equal to alinged block size, available block pointer equal to the next page's block. If there are not enough free pages, then `nullptr` is returned. In case of a successful allocation the address of the new block is returned.
+When allocating a block of memory of a certain size, 3 situations are considered:
+1. Block size less than half the page size
+2. Block size is more than half the page (total_size> (PAGE_SIZE / 2) && total_size <PAGE_SIZE)
+3. Block size is larger than page size (total_size> PAGE_SIZE)
+In the first case, the block size is rounded to the next power of 2 to determine the page class and the page and block are initialized
+In the second case, the block will occupy the entire page.
+And in the third case, one block will occupy several pages, several full pages and 1 page will contain the remainder
 #### `void mem_free(void* addr)` function
-This function finds a page which contains the `addr` and checks if `addr` is valid. In case when page status is divided, then the function sets `addr` block free and checks if every block free, if so, the function changes the header and adds the page to free pages array. Also, the function checks whether the page was full, then the function adds the page to the available classified pages array. In case when page status is multipage block, then the function changes headers of all pages containing `addr` block to free status.
+To free a block, this block is searched for at the address by iterating over all pages and addresses.
+If this is the only block in the page, it is assigned the status of free, otherwise only the block in the page is marked free.
 #### `void* mem_realloc(void* addr, size_t size)` function
-This function checks if `addr` is valid and align `size` to a minimum of two equivalent. The functions searches the page that contains a block with address equal to `addr`. In case when page status is divided, the function calls `mem_alloc(size)` method and calls `mem_free(addr)` on allocation success. The function returns `addr` if allocation failed. In case when page status is multi page block, the function calculates amount of pages needed to allocate a new block with size equal to `size`. If old and new amount of pages are equal then `addr` is returned. If `size >= PAGE_SIZE / 2` then the function calls `mem_free(addr)` and then calls `mem_alloc(size)` and return the allocation result. If old amount of pages is greater than new one, then the function sets the excess pages free and changes size of the remaining pages. If new amount of pages is greater than old one, then the function changes the class size of the current multi block pages and allocate free pages needed.
+Realloc() changes the size of the given memory block to the size given.
+We first get the block’s header and see if the block already has the size to accomodate the requested size. If it does, there’s nothing to be done.
+If the current block does not have the requested size, then we call malloc() to get a block of the request size, and relocate contents to the new bigger block using memcpy(). The old memory block is then freed.
 ### Examples
 #### Example of `mem_alloc(size_t size)` function
 ##### Description
-Allocation 10 33 69 100 100 100 100 100 560
+Allocation 10, 33, 69, 100, 100, 100, 100, 100, 560 bytes
 
 ##### Code
 ```
@@ -58,7 +53,7 @@ Free block test
 Realloc
 ##### Code
 ``
-page_realloc(33);
+page_realloc(test, 33);
 ``
 ##### Picture
 ![Realloc](example3.png "Realloc")
