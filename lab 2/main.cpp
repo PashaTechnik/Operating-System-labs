@@ -30,8 +30,8 @@ struct page{
 };
 
 
+
 static vector<page> allPages(AMOUNT_OF_PAGES);
-//static vector<vector<header_r>> blocks;
 static map<page, vector<header_r>> pageMap;
 
 void pageInit(){
@@ -188,21 +188,20 @@ void* page_malloc(size_t size){
 void page_free(void* addr){
 
     header_r *block;
-    bool last_block;
+    //bool last_block;
     page* page_t;
     for (int i = 0; i < AMOUNT_OF_PAGES; ++i) {
         for (int j = 0; j < pageMap[allPages[i]].size(); ++j) {
             if (pageMap[allPages[i]][j].start == addr){
                 block = &pageMap[allPages[i]][j];
                 if (pageMap[allPages[i]].size() == 1) {
-                    last_block = true;
                     page_t = &allPages[i];
+                    page_t->number_of_blocks = NULL;
+                    page_t->availability = true;
                 }
             }
         }
     }
-    page_t->number_of_blocks = NULL;
-    page_t->availability = true;
     block->is_free = true;
 
 }
@@ -237,6 +236,7 @@ void *realloc(void *addr, size_t size)
 
 
 void mem_dump(){
+    cout<<"---------------------------------------------------------------------------------------"<<endl;
     
     for (int i = 0;i < AMOUNT_OF_PAGES;i++){
         cout<<"Page number: "<<i+1;
@@ -250,6 +250,7 @@ void mem_dump(){
             cout<<"\tBlock address: "<<pageMap[allPages[i]][j].start<<endl;
         }
     }
+    cout<<"---------------------------------------------------------------------------------------"<<endl;
 }
 
 
@@ -258,6 +259,7 @@ int main() {
 
 
     pageInit();
+    mem_dump();
     page_malloc(10);
 
 
@@ -275,9 +277,7 @@ int main() {
 
     mem_dump();
     page_free(test);
-    cout<<"---------------------------------------------------------------------------------------"<<endl;
     mem_dump();
-    cout<<"---------------------------------------------------------------------------------------"<<endl;
     page_malloc(33);
     test = page_malloc(2000);
     mem_dump();

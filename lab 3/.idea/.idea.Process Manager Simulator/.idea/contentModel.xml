@@ -13,7 +13,9 @@
           </e>
         </e>
         <e p="Process Manager Simulator.csproj" t="IncludeRecursive" />
+        <e p="Process.cs" t="Include" />
         <e p="Program.cs" t="Include" />
+        <e p="RoundRobinAlgorithm.cs" t="Include" />
       </e>
       <e p="Process Manager Simulator.sln" t="IncludeFlat" />
     </e>
