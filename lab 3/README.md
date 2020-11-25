@@ -20,6 +20,7 @@ Here are the important characteristics of Round-Robin Scheduling:
 | P1 | 4 |
 | P2 | 3 |
 | P3 | 5 |
+
 ![ex](example1.png "ex")
 **Step 1)** The execution begins with process P1, which has burst time 4. Here, every process executes for 2 seconds. P2 and P3 are still in the waiting queue.
 ![step1](example2.png "step1")
