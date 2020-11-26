@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Process_Manager_Simulator
 {
@@ -17,21 +18,39 @@ namespace Process_Manager_Simulator
             processes.Add(new Process
             {
                 Time = 12,
-                Name = "P1",
+                Name = "P2",
                 Priority = 3
             });
             processes.Add(new Process
             {
                 Time = 12,
-                Name = "P1",
+                Name = "P3",
                 Priority = 1
             });
             processes.Add(new Process
             {
                 Time = 12,
-                Name = "P1",
+                Name = "P4",
                 Priority = 2
             });
+            
+            int []processesId = new int[processes.Count] ;
+            for (int i = 0; i < processesId.Length; i++)
+            {
+                processesId[i] = i + 1;
+            }
+            
+            int n = processesId.Length; 
+            
+            int []burst_time = new int[processes.Count];
+            int k = 0;
+            foreach (var item in processes)
+            {
+                burst_time[k] = item.Time;
+                k++;
+            }
+            int quantum = 2;
+
             processes.Sort();
 
             foreach (var i in processes)
@@ -39,18 +58,17 @@ namespace Process_Manager_Simulator
                 Console.WriteLine(i);
             }
             
-            RoundRobinAlgorithm alg = new RoundRobinAlgorithm(10);
-            List<List<Process>> queuesByPriotity = alg.SplitIntoQueues(processes);
+            RoundRobinAlgorithm alg = new RoundRobinAlgorithm(2);
 
-            foreach (var items in queuesByPriotity)
-            {
-                Console.WriteLine("queue:");
-                foreach (var item in items)
-                {
-                    Console.WriteLine(item);
-                }
-            }
-
+            alg.ProcessInit(processes);
+            //alg.ManageProcess();
+            Console.WriteLine("Gantt Diagram");
+            alg.GanttDiagram();
+            alg.findavgTime(processesId, n, burst_time, quantum); 
+            
+            
+            
+            
         }
     }
 }
