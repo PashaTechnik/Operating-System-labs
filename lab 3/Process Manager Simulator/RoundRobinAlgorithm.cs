@@ -149,6 +149,14 @@ namespace Process_Manager_Simulator
             return queuesByPriotity;
         }
         
+        // Turn Around Time = Completion Time – Arrival Time    
+        static void findTurnAroundTime(int []processes, int n, int []bt, int []wt, int []tat) 
+        {
+            for (int i = 0; i < n ; i++) 
+                tat[i] = bt[i] + wt[i]; 
+        } 
+        
+        // Waiting Time = Turn Around Time – Burst Time
         static void findWaitingTime(int []processes, int n, int []bt, int []wt, int quantum) {
             int []rem_bt = new int[n];
             for (int i = 0 ; i < n ; i++) 
@@ -179,15 +187,9 @@ namespace Process_Manager_Simulator
                 if (done == true) 
                     break; 
             } 
-        } 
-        
-    static void findTurnAroundTime(int []processes, int n, int []bt, int []wt, int []tat) 
-    {
-        for (int i = 0; i < n ; i++) 
-            tat[i] = bt[i] + wt[i]; 
-    } 
-    
-     public void findavgTime(int []processes, int n, int []bt, int quantum) 
+        }
+
+        public void findavgTime(int []processes, int n, int []bt, int quantum) 
         { 
             int []wt = new int[n]; 
             int []tat = new int[n]; 

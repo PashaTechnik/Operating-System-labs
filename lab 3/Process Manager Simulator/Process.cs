@@ -6,7 +6,6 @@ namespace Process_Manager_Simulator
     {
         public int Time { get; set; }
         public string Name { get; set; }
-        public int WaitTime { get; set; }
         public int Priority { get; set; }
         public bool IsComplete = false;
         public int CompareTo(object? obj)

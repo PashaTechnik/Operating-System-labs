@@ -35,11 +35,7 @@ namespace Process_Manager_Simulator
             });
             
             int []processesId = new int[processes.Count] ;
-            for (int i = 0; i < processesId.Length; i++)
-            {
-                processesId[i] = i + 1;
-            }
-            
+
             int n = processesId.Length; 
             
             int []burst_time = new int[processes.Count];
