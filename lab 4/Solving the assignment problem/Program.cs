@@ -6,7 +6,8 @@ namespace Solving_the_assignment_problem
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            AssigmentAlgorithm alg = new AssigmentAlgorithm(4, 15);
+            alg.MatrixTransformation();
         }
     }
 }
