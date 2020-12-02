@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Solving_the_assignment_problem
 {
-    public class AssignmentMatrix
+    public class AssignmentMatrix : ICloneable
     {
         private int n;
         public int N { get => this.n; }
@@ -38,6 +38,21 @@ namespace Solving_the_assignment_problem
                 matrix.Append("\n");
             }
             return matrix.ToString();
+        }
+        
+        public object Clone()
+        {
+            int[,] M;
+            M = new int[N,N];
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    M[i, j] = Matrix[i, j];
+                }
+            }
+
+            return M;
         }
     }
 }
