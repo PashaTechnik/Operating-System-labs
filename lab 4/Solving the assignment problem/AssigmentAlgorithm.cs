@@ -26,82 +26,113 @@ namespace Solving_the_assignment_problem
 
         public void MatrixTransformation()
         {
+        
+                int[,] resultM = (int[,]) assignmentMatrix.Clone();
 
-            PrepareMatrix();
-            Console.WriteLine(assignmentMatrix);
-            Console.WriteLine("================================");
-            int[,] m = (int[,]) assignmentMatrix.Clone();
-            List<Point> pare = findMaxMatching(m);
+                PrepareMatrix();
+                Console.WriteLine(assignmentMatrix);
+                Console.WriteLine("================================");
+                int[,] m = (int[,]) assignmentMatrix.Clone();
+                int[,] transformedM = (int[,]) assignmentMatrix.Clone();
+                List<Point> pare = findMaxMatching(m);
+                
+                
+                List<int> xPoint = new List<int>();
+                List<int> yPoint = new List<int>();
 
-            List<int> xPoint = new List<int>();
-            List<int> yPoint = new List<int>();
-
-            int k = 0;
-            int noPare = -1;
-            foreach (var i in pare)
-            {
-                Console.WriteLine($"x = {i.x}; y = {i.y};");
-                if (i.x != k)
+                int k = 0;
+                int noPare = -1;
+                foreach (var i in pare)
                 {
-                    noPare = k;
+                    Console.WriteLine($"x = {i.x}; y = {i.y};");
+                    if (i.x != k)
+                    {
+                        noPare = k;
+                    }
+
+                    k++;
                 }
 
-                k++;
-            }
-
-            if (noPare == -1)
-            {
-                noPare = N - 1;
-            }
-
-            for (int j = 0; j < N; j++)
-            {
-                if (m[noPare, j] == 1)
+                if (noPare == -1)
                 {
-                    yPoint.Add(noPare);
-                    xPoint.Add(j);
+                    noPare = N - 1;
                 }
-            }
+
+                for (int j = 0; j < N; j++)
+                {
+                    if (m[noPare, j] == 1)
+                    {
+                        xPoint.Add(j);
+                    }
+                }
+
+                for (int j = 0; j < N; j++)
+                {
+                    if (m[j, xPoint.First()] == 1)
+                    {
+                        yPoint.Add(j);
+                    }
+                }
 
 
+                Console.WriteLine(assignmentMatrix);
+                Console.WriteLine("================================");
+                DisplayMatrix(m);
+                Console.WriteLine("================================");
+                transform(ref transformedM, xPoint, yPoint);
 
-            Console.WriteLine(assignmentMatrix);
-            Console.WriteLine("================================");
-            DisplayMatrix(m);
-            Console.WriteLine("================================");
-            Console.WriteLine(xPoint.First());
-            Console.WriteLine(yPoint.First());
-            
-            
+                DisplayMatrix(transformedM);
+                int minValueOfTransformedMatrix = int.MaxValue;
+
+                for (int i = 0; i < N; i++)
+                {
+                    for (int j = 0; j < N; j++)
+                    {
+                        if (transformedM[i, j] != -1)
+                        {
+                            if (transformedM[i, j] < minValueOfTransformedMatrix)
+                            {
+                                minValueOfTransformedMatrix = transformedM[i, j];
+                            }
+                        }
+                    }
+                }
+
+                for (int i = 0; i < N; i++)
+                {
+                    for (int j = 0; j < N; j++)
+                    {
+
+                        if (j == xPoint.First())
+                        {
+                            Matrix[i, j] = Matrix[i, j] + minValueOfTransformedMatrix;
+                        }
+
+                        if (yPoint.Contains(i))
+                        {
+                            Matrix[i, j] = Matrix[i, j] - minValueOfTransformedMatrix;
+                        }
+                    }
+                }
+
+                pare = findMaxMatching((int[,]) assignmentMatrix.Clone());
+
+                Console.WriteLine(assignmentMatrix);
+                Console.WriteLine("================================");
+
+                foreach (var i in pare)
+                {
+                    Console.WriteLine($"x = {i.x}; y = {i.y};");
+                }
 
 
-
-    }
+                showResult(resultM,pare,N - pare.Count);
+        }
 
         public void PrepareMatrix()
         {
-            //int maxElemInColumn;
             int minElemInLine;
-
-            // for (int i = 0; i < N; i++)
-            // {
-            //     Console.WriteLine(assignmentMatrixMatrix);
-            //     Console.WriteLine("================================");
-            //     maxElemInColumn = int.MinValue;
-            //     for (int j = 0; j < N; j++)
-            //     {
-            //         if (Matrix[j, i] > maxElemInColumn)
-            //         {
-            //             maxElemInColumn = Matrix[j, i];
-            //         }
-            //     }
-            //     
-            //     for (int j = 0; j < N; j++)
-            //     {
-            //         Matrix[j, i] = maxElemInColumn - Matrix[j, i];
-            //     }
-            //
-            // }
+            
             for (int j = 0; j < N; j++)
             {
                 Console.WriteLine(assignmentMatrix);
@@ -162,9 +193,60 @@ namespace Solving_the_assignment_problem
                 } 
             }
 
-            return pare;
+            int temp = pare.Count;
+            List<Point> tempPare = pare;
+            pare.Clear();
+
+            for (int i = N - 1; i >= 0; i--)
+            {
+                for (int j = N - 1; j >= 0; j--)
+                {
+                    contain = false;
+                    for (int k = 0; k < N; k++)
+                    {
+                        if (pare.Contains( new Point(k,j)))
+                        {
+                            contain = true;
+                        }
+                    }
+                    if (matrix[i, j] == 1 && contain != true)
+                    {
+                        pare.Add(new Point(i,j));
+                        break;
+                    }
+                }
+            }
+
+            if (pare.Count > temp)
+            {
+                return pare;
+            }
+            else
+            {
+                return tempPare;
+            }
+
         }
-        
+
+        public void transform(ref int[,] matrix, List<int> x, List<int> y)
+        {
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    if (j == x.First())
+                    {
+                        matrix[i, j] = -1;
+                    }
+                    if (!y.Contains(i))
+                    {
+                        matrix[i, j] = -1;
+                    }
+                } 
+            }
+        }
+
+
         public void DisplayMatrix(int [,] Matrix){
             StringBuilder matrix = new StringBuilder();
             for (int i = 0; i < N; i++)
@@ -178,10 +260,39 @@ namespace Solving_the_assignment_problem
             }
             Console.WriteLine(matrix);
         }
-    }
-    
 
-    struct Point
+        public void showResult(int[,] matrix, List<Point> pare, int add){
+            int result = 0;
+            StringBuilder resultStr = new StringBuilder();
+            resultStr.Append("Lowest cost = ");
+
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    if (pare.Contains(new Point(i,j)))
+                    {
+                        resultStr.Append(matrix[i, j]);
+                        result += matrix[i, j];
+
+                        
+                        resultStr.Append(" + ");
+                        
+                    }
+                }
+            }
+            
+
+            resultStr.Remove(resultStr.Length - 2, 2);
+            resultStr.Append("= ");
+            resultStr.Append(result);
+            Console.WriteLine(resultStr);
+        }
+        
+    }
+
+
+    public struct Point
     {
         public Point(int x, int y)
         {
