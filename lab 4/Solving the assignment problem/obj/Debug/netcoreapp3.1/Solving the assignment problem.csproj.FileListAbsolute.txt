@@ -1,0 +1,12 @@
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/bin/Debug/netcoreapp3.1/Solving the assignment problem.deps.json
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/bin/Debug/netcoreapp3.1/Solving the assignment problem.runtimeconfig.json
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/bin/Debug/netcoreapp3.1/Solving the assignment problem.runtimeconfig.dev.json
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/bin/Debug/netcoreapp3.1/Solving the assignment problem.dll
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/bin/Debug/netcoreapp3.1/Solving the assignment problem.pdb
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/obj/Debug/netcoreapp3.1/Solving the assignment problem.csprojAssemblyReference.cache
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/obj/Debug/netcoreapp3.1/Solving the assignment problem.AssemblyInfoInputs.cache
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/obj/Debug/netcoreapp3.1/Solving the assignment problem.AssemblyInfo.cs
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/obj/Debug/netcoreapp3.1/Solving the assignment problem.csproj.CoreCompileInputs.cache
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/obj/Debug/netcoreapp3.1/Solving the assignment problem.dll
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/obj/Debug/netcoreapp3.1/Solving the assignment problem.pdb
+/Users/admin/Desktop/Operating-System-labs/lab 4/Solving the assignment problem/obj/Debug/netcoreapp3.1/Solving the assignment problem.genruntimeconfig.cache

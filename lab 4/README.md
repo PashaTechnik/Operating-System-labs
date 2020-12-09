@@ -8,6 +8,8 @@ There are cases when the matrix is ​​not reduced to the end - there are no r
 
 It is known that a perfect matching in a bipartite graph may not be the only one. Therefore, if the graph is weighted, i.e. each edge is endowed with a weight, then it is natural to pose the problem of finding a matching with the highest or lowest weight. The possibility of practical application of the solution to this problem is obvious.
 
+The task of this laboratory work was to determine the probability of occurrence of mandatory appointments when changing the occupancy of the matrix "1" connectivity from 1% to 100% for a given dimension from 10 to 30 with step 5.
+
 ### Algorithm
 The algorithm is based on the theory of alternating chains by J. Petersen.
 
@@ -54,3 +56,20 @@ The algorithm is based on the theory of alternating chains by J. Petersen.
 **Step 7)** the sets Xm and Ym are empty; therefore, the problem is solved. Thus, choosing the elements of the original matrix A with the numbers of the edges of the obtained matching, we find the smallest costs:
 
 **Σ = a₁₃ + a₂₁ + a₃₂ + a₄₄ = 1 + 1 + 1 + 4 = 7**
+
+### Calculating probability
+
+Next, we need to determine the probability of occurrence of mandatory appointments when changing the occupancy of the matrix "1" connectivity from 1% to 100% for a given dimension from 10 to 30 with step 5.
+
+Determine if assignments appear for each step
+
+1 - appear
+
+0 - do not appear
+
+![step6](example9.png "step6")
+
+
+**Calculating probability**
+
+We see that the probabilitywe see that the probability is **60%**

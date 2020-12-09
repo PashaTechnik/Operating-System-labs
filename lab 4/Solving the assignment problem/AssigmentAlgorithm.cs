@@ -44,7 +44,6 @@ namespace Solving_the_assignment_problem
                 int noPare = -1;
                 foreach (var i in pare)
                 {
-                    Console.WriteLine($"x = {i.x}; y = {i.y};");
                     if (i.x != k)
                     {
                         noPare = k;
@@ -102,12 +101,10 @@ namespace Solving_the_assignment_problem
                 {
                     for (int j = 0; j < N; j++)
                     {
-
                         if (j == xPoint.First())
                         {
                             Matrix[i, j] = Matrix[i, j] + minValueOfTransformedMatrix;
                         }
-
                         if (yPoint.Contains(i))
                         {
                             Matrix[i, j] = Matrix[i, j] - minValueOfTransformedMatrix;
@@ -120,13 +117,7 @@ namespace Solving_the_assignment_problem
                 Console.WriteLine(assignmentMatrix);
                 Console.WriteLine("================================");
 
-                foreach (var i in pare)
-                {
-                    Console.WriteLine($"x = {i.x}; y = {i.y};");
-                }
-
-
-                showResult(resultM,pare,N - pare.Count);
+                showResult(resultM,pare);
         }
 
         public void PrepareMatrix()
@@ -261,7 +252,7 @@ namespace Solving_the_assignment_problem
             Console.WriteLine(matrix);
         }
 
-        public void showResult(int[,] matrix, List<Point> pare, int add){
+        public void showResult(int[,] matrix, List<Point> pare){
             int result = 0;
             StringBuilder resultStr = new StringBuilder();
             resultStr.Append("Lowest cost = ");
@@ -286,7 +277,8 @@ namespace Solving_the_assignment_problem
             resultStr.Remove(resultStr.Length - 2, 2);
             resultStr.Append("= ");
             resultStr.Append(result);
-            Console.WriteLine(resultStr);
+            //Console.WriteLine(resultStr);
+            Console.WriteLine($"Lowest cost = {result}");
         }
         
     }
