@@ -72,4 +72,4 @@ Determine if assignments appear for each step
 
 **Calculating probability**
 
-We see that the probabilitywe see that the probability is **60%**
+We see that the probability is **60%**
