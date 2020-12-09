@@ -8,6 +8,7 @@ namespace Solving_the_assignment_problem
         {
             AssigmentAlgorithm alg = new AssigmentAlgorithm(4, 15);
             alg.MatrixTransformation();
+            alg.findDestinations();
         }
     }
 }

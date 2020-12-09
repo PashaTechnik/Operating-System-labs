@@ -251,6 +251,49 @@ namespace Solving_the_assignment_problem
             }
             Console.WriteLine(matrix);
         }
+        
+        
+        public void findDestinations(){
+    
+            int[,] matrix = new int[N,N];
+            List<Point> pare = new List<Point>();
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    if (matrix[i, j] == 0)
+                    {
+                        matrix[i, j] = 1;
+                    }
+                    else
+                    {
+                        matrix[i, j] = 0;
+                    }
+                } 
+            }
+
+            bool contain = false;
+            
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = 0; j < N; j++)
+                {
+                    contain = false;
+                    for (int k = 0; k < N; k++)
+                    {
+                        if (pare.Contains( new Point(k,j)))
+                        {
+                            contain = true;
+                        }
+                    }
+                    if (matrix[i, j] == 1 && contain != true)
+                    {
+                        pare.Add(new Point(i,j));
+                        break;
+                    }
+                } 
+            }
+        }
 
         public void showResult(int[,] matrix, List<Point> pare){
             int result = 0;
@@ -281,7 +324,9 @@ namespace Solving_the_assignment_problem
             Console.WriteLine($"Lowest cost = {result}");
         }
         
+        
     }
+    
 
 
     public struct Point
