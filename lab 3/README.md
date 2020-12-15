@@ -64,3 +64,7 @@ Here, are drawbacks/cons of using Round-robin scheduling:
 * Lower time quantum results in higher the context switching overhead in the system.
 * Finding a correct time quantum is a quite difficult task in this system.
 
+### Round-robin Scheduling Graph
+
+![step6](example8.png "step6")
+![step6](example9.png "step6")
